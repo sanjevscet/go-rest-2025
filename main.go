@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+var JWT_SECRET = "SANJEEV_KUMAR"
+
 func main() {
 	InitDB()
 
@@ -17,7 +19,8 @@ func main() {
 	mux.HandleFunc("/ip", GetIPHandler)
 	mux.HandleFunc("/dummyPost", DummyPostHandler)
 	mux.HandleFunc("/post", PostHandler)
-	mux.HandleFunc("/user", UserHandler)
+	mux.Handle("/user", AuthMiddleware(http.HandlerFunc(UserHandler)))
+	mux.HandleFunc("/login", LoginHandler)
 
 	LoggingMiddleware := LogMiddleware(mux)
 

@@ -128,7 +128,19 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	CustomJsonResponse(w, http.StatusOK, user)
 }
 
-func getUsers(w http.ResponseWriter, _ *http.Request) {
+func getUsers(w http.ResponseWriter, r *http.Request) {
+	// checking the user from context
+	user, ok := GetUserFromContext(r.Context())
+	if !ok {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	println(">>>>>>>>>>>>>>>>>>>>")
+	log.Printf("%+v", user)
+	log.Println(user.Username)
+	println(">>>>>>>>>>>>>>>>>>>>")
+
 	users := make([]User, 0)
 
 	query := `SELECT id, username, email, is_active, created_at, updated_at FROM users`

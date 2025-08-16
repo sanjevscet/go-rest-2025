@@ -4,6 +4,7 @@ go 1.24.5
 
 require (
 	github.com/go-playground/validator/v10 v10.27.0
+	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/jackc/pgx/v5 v5.7.5
 	golang.org/x/crypto v0.41.0
 )

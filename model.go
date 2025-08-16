@@ -1,6 +1,10 @@
 package main
 
-import "time"
+import (
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+)
 
 type Post struct {
 	ID     int    `json:"id"`
@@ -22,4 +26,16 @@ type User struct {
 	IsActive  bool      `json:"isActive" validate:"required"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type UserClaims struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+
+	jwt.RegisteredClaims
+}
+
+type UserLogin struct {
+	Username string `json:"username" validate:"required,min=3"`
+	Password string `json:"password" validate:"required,min=6"`
 }

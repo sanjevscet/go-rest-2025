@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -26,4 +29,23 @@ func HashPassword(password string) (string, error) {
 
 func CompareHash(password, hash string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+}
+
+func generateJWTWithClaims(user User) (string, error) {
+
+	claims := UserClaims{
+		Username: user.Username,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	return token.SignedString([]byte(JWT_SECRET))
+}
+
+func GetUserFromContext(ctx context.Context) (*UserClaims, bool) {
+	user, ok := ctx.Value("username").(*UserClaims)
+	return user, ok
 }
