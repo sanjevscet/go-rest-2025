@@ -41,7 +41,7 @@ func getPost(w http.ResponseWriter, r *http.Request) {
 
 	query := `SELECT * FROM posts WHERE id = $1`
 	var post Post
-	if err := DB.QueryRow(context.Background(), query, postId).Scan(&post.Id, &post.Title, &post.Body, &post.UserId); err != nil {
+	if err := DB.QueryRow(context.Background(), query, postId).Scan(&post.ID, &post.Title, &post.Body, &post.UserId); err != nil {
 		http.Error(w, "Failed to get post from DB", http.StatusInternalServerError)
 		return
 	}
@@ -61,7 +61,7 @@ func getPosts(w http.ResponseWriter, _ *http.Request) {
 	var posts []Post
 	for rows.Next() {
 		var post Post
-		if err := rows.Scan(&post.Id, &post.Title, &post.Body, &post.UserId); err != nil {
+		if err := rows.Scan(&post.ID, &post.Title, &post.Body, &post.UserId); err != nil {
 			http.Error(w, "Failed to scan post", http.StatusInternalServerError)
 			return
 		}
@@ -105,7 +105,7 @@ func createPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	post.Id = id
+	post.ID = id
 
 	CustomJsonResponse(w, http.StatusCreated, post)
 }
@@ -168,7 +168,7 @@ func updatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := `UPDATE posts set title=$1, user_id=$2, body=$3 WHERE id=$4`
-	result, err := DB.Exec(context.Background(), query, post.Title, post.UserId, post.Body, post.Id)
+	result, err := DB.Exec(context.Background(), query, post.Title, post.UserId, post.Body, post.ID)
 	if err != nil {
 		http.Error(w, "Failed to update post from DB", http.StatusInternalServerError)
 		return

@@ -1,7 +1,9 @@
 package main
 
+import "time"
+
 type Post struct {
-	Id     int    `json:"id"`
+	ID     int    `json:"id"`
 	Title  string `json:"title" validate:"required,min=3"`
 	Body   string `json:"body"`
 	UserId int    `json:"userId"`
@@ -10,4 +12,14 @@ type Post struct {
 type Success struct {
 	Completed bool   `json:"completed"`
 	Message   string `json:"message"`
+}
+
+type User struct {
+	ID        int       `json:"id"`
+	Username  string    `json:"username" validate:"required,min=3"`
+	Email     string    `json:"email" validate:"required,email"`
+	Password  string    `json:"password" validate:"required,min=6"`
+	IsActive  bool      `json:"isActive" validate:"required"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }

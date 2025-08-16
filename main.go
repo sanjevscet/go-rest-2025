@@ -17,6 +17,7 @@ func main() {
 	mux.HandleFunc("/ip", GetIPHandler)
 	mux.HandleFunc("/dummyPost", DummyPostHandler)
 	mux.HandleFunc("/post", PostHandler)
+	mux.HandleFunc("/user", UserHandler)
 
 	LoggingMiddleware := LogMiddleware(mux)
 
