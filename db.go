@@ -10,7 +10,7 @@ import (
 var DB *pgxpool.Pool
 
 func InitDB() {
-	dsn := "postgres://quorbit:quorbit@localhost:15432/go_test?sslmode=disable"
+	dsn := "postgres://postgres:top2toe-NW4@db.gvlnikpsogjfimdizcks.supabase.co:5432/postgres?sslmode=disable"
 
 	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {
